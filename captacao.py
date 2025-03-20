@@ -26,7 +26,7 @@ with st.form(key='cadastro_form'):
     # Remover caracteres não numéricos
     telefone = re.sub(r'\D', '', telefone)
     
-    telefone = "+55" + telefone#.replace("(", "").replace(")", "").replace("-", "")
+    telefone = "+55" + telefone
     
     # Campo Data/Hora de agendamento
     data_hora = st.date_input("Data do Agendamento").strftime("%d/%m/%y")
@@ -45,13 +45,23 @@ if submit_button:
     elif not validar_telefone(telefone):
         st.error("O telefone deve ser um número de celular válido")
     else:
+        # Capturar data e hora atuais
+        agora = datetime.now()
+        datacaptacao = agora.strftime("%d/%m/%Y")
+        horariocaptacao = agora.strftime("%H:%M:%S")
+        horacaptacao = agora.strftime("%H")
+        
         # Dados a serem enviados
         dados = {
             "nome": nome,
             "telefone": telefone,
             "data": str(data_hora),
             "horario": str(horario)[:5],
-            "origem": "appcaptacao"
+            "origem": "appcaptacao",
+            "datacaptacao": datacaptacao,
+            "horariocaptacao": horariocaptacao,
+            "horacaptacao": horacaptacao,
+            "localcaptacao": "Montes Claros"
         }
         
         # Envio para a API
