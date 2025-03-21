@@ -68,25 +68,33 @@ df_filtrado = df[
 ]
 
 # 1. Captações por hora e dia
-st.header("Captações por Hora e Dia")
-df_hora_dia = df_filtrado.groupby([df_filtrado['horacaptacao']]).size().reset_index()
-df_hora_dia.columns = ['Hora', 'Quantidade']
+st.header("Captações por Hora e Dia e Status dos Agendamentos")
 
-fig1 = px.bar(df_hora_dia, x='Hora', y='Quantidade', 
-              title='Quantidade de Captações por Hora',
-              labels={'Hora': 'Hora do Dia', 'Quantidade': 'Nº de Captações'},
-              text='Quantidade')
-fig1.update_traces(textposition='outside')  # Exibe os valores fora das barras
-st.plotly_chart(fig1, use_container_width=True)
+# Criar colunas para exibir os gráficos lado a lado
+col1, col2 = st.columns(2)
 
-# 2. Captações: Confirmados vs Não Confirmados
-st.header("Status dos Agendamentos das Captações")
-df_filtrado['confirmado'] = df_filtrado['confirmado'].map({'s': 'Confirmado', 'n': 'Não Confirmado'})
-status_counts = df_filtrado['confirmado'].value_counts()
-fig2 = px.pie(values=status_counts.values, 
-             names=status_counts.index, 
-             title='Confirmados vs Não Confirmados')
-st.plotly_chart(fig2, use_container_width=True)
+# Gráfico 1: Captações por Hora
+with col1:
+    st.subheader("Captações por Hora")
+    df_hora_dia = df_filtrado.groupby([df_filtrado['horacaptacao']]).size().reset_index()
+    df_hora_dia.columns = ['Hora', 'Quantidade']
+
+    fig1 = px.bar(df_hora_dia, x='Hora', y='Quantidade', 
+                  title='Quantidade de Captações por Hora',
+                  labels={'Hora': 'Hora do Dia', 'Quantidade': 'Nº de Captações'},
+                  text='Quantidade')
+    fig1.update_traces(textposition='outside')  # Exibe os valores fora das barras
+    st.plotly_chart(fig1, use_container_width=True)
+
+# Gráfico 2: Confirmados vs Não Confirmados
+with col2:
+    st.subheader("Status dos Agendamentos")
+    df_filtrado['confirmado'] = df_filtrado['confirmado'].map({'s': 'Confirmado', 'n': 'Não Confirmado'})
+    status_counts = df_filtrado['confirmado'].value_counts()
+    fig2 = px.pie(values=status_counts.values, 
+                  names=status_counts.index, 
+                  title='Confirmados vs Não Confirmados')
+    st.plotly_chart(fig2, use_container_width=True)
 
 # 3. Mapa de captações por local
 st.header("Distribuição Geográfica das Captações")
