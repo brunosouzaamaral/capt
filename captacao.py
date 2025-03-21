@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Configuração da página
 st.set_page_config(page_title="Cadastro de Clientes", page_icon="📋")
@@ -29,7 +29,7 @@ with st.form(key='cadastro_form'):
     telefone = "+55" + telefone
     
     # Campo Data/Hora de agendamento
-    data_hora = st.date_input("Data do Agendamento").strftime("%d/%m/%y")
+    data_hora = st.date_input("Data do Agendamento").strftime("%d/%m/%Y")
     horario = st.time_input("Horário do Agendamento")
     
     # Botão de submit
@@ -46,7 +46,7 @@ if submit_button:
         st.error("O telefone deve ser um número de celular válido")
     else:
         # Capturar data e hora atuais
-        agora = datetime.now()
+        agora = datetime.utcnow() - timedelta(hours=3)
         datacaptacao = agora.strftime("%d/%m/%Y")
         horariocaptacao = agora.strftime("%H:%M:%S")
         horacaptacao = agora.strftime("%H")
