@@ -67,7 +67,7 @@ if submit_button:
         # Envio para a API
         try:
             response = requests.post(
-                "https://n8n.financeironet.com.br/webhook-test/1f55d4fe-9479-4af7-8d90-7da8b3e193ac",
+                "https://n8n.financeironet.com.br/webhook/1f55d4fe-9479-4af7-8d90-7da8b3e193ac",
                 json=dados
             )
             
