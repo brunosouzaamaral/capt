@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 import re
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 
 # Configuração da página
 st.set_page_config(page_title="Cadastro de Clientes", page_icon="📋")
@@ -30,7 +30,12 @@ with st.form(key='cadastro_form'):
     
     # Campo Data/Hora de agendamento
     data_hora = st.date_input("Data do Agendamento").strftime("%d/%m/%Y")
-    horario = st.time_input("Horário do Agendamento")
+    
+    # Lista de horários permitidos (08:00 a 18:00, de hora em hora)
+    horarios_permitidos = [time(h, 0) for h in range(8, 19)]
+
+    # Campo de seleção de horário
+    horario = st.selectbox("Horário do Agendamento", options=horarios_permitidos, format_func=lambda t: t.strftime("%H:%M"))
     
     # Botão de submit
     submit_button = st.form_submit_button(label="Cadastrar")

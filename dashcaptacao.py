@@ -13,7 +13,7 @@ st.set_page_config(page_title="Dashboard de Captações", layout="wide")
 FIREBASE_URL = "https://captacao-5d200-default-rtdb.firebaseio.com"
 
 # Título do dashboard
-st.title("Dashboard de Captações e Agendamentos")
+#st.title("Dashboard de Captações e Agendamentos")
 
 # Função para carregar dados do Firebase via REST API
 
@@ -68,7 +68,7 @@ df_filtrado = df[
 ]
 
 # 1. Captações por hora e dia
-st.header("Captações por Hora e Dia e Status dos Agendamentos")
+#st.header("Captações por Hora e Dia e Status dos Agendamentos")
 
 # Criar colunas para exibir os gráficos lado a lado
 col1, col2 = st.columns(2)
@@ -119,4 +119,4 @@ for idx, row in locais_counts.iterrows():
 folium_static(m)
 
 # Rodapé com data de atualização
-st.write(f"Última atualização: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
+#st.write(f"Última atualização: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
