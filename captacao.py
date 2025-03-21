@@ -55,15 +55,15 @@ if submit_button:
         dados = {
             "nome": nome,
             "telefone": telefone,
-            "data": str(data_hora),
-            "horario": str(horario)[:5],
+            "dataagend": str(data_hora),
+            "horarioagend": str(horario)[:5],
             "origem": "appcaptacao",
             "datacaptacao": datacaptacao,
             "horariocaptacao": horariocaptacao,
             "horacaptacao": horacaptacao,
-            "localcaptacao": "Montes Claros"
+            "localcaptacao": "Montes Claros",
+            "confirmado": "n"
         }
-        
         # Envio para a API
         try:
             response = requests.post(
