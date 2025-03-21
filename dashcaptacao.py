@@ -16,7 +16,7 @@ FIREBASE_URL = "https://captacao-5d200-default-rtdb.firebaseio.com"
 st.title("Dashboard de Captações e Agendamentos")
 
 # Função para carregar dados do Firebase via REST API
-#@st.cache_data(ttl=300)  # Cache por 5 minutos
+
 def load_data():
     # Fazer requisição GET para obter os dados
     response = requests.get(f"{FIREBASE_URL}/.json")  # Removido o nó 'captacoes'  # Ajuste o nó 'captacoes' conforme sua estrutura
@@ -33,7 +33,7 @@ def load_data():
     
     # Converter formatos de data e hora
     df['data_captacao'] = pd.to_datetime(df['datacaptacao'], format='%d/%m/%Y')
-    df['data_agend'] = pd.to_datetime(df['dataagend'], format='%d/%m/%y')
+    df['data_agend'] = pd.to_datetime(df['dataagend'], format='%d/%m/%Y')
     df['hora_captacao'] = df['horacaptacao'].astype(str)
     
     # Mapear coordenadas para locais (adicione mais conforme necessário)
