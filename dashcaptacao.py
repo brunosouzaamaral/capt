@@ -16,7 +16,7 @@ FIREBASE_URL = "https://captacao-5d200-default-rtdb.firebaseio.com"
 st.title("Dashboard de Captações e Agendamentos")
 
 # Função para carregar dados do Firebase via REST API
-@st.cache_data(ttl=300)  # Cache por 5 minutos
+#@st.cache_data(ttl=300)  # Cache por 5 minutos
 def load_data():
     # Fazer requisição GET para obter os dados
     response = requests.get(f"{FIREBASE_URL}/.json")  # Removido o nó 'captacoes'  # Ajuste o nó 'captacoes' conforme sua estrutura
@@ -55,6 +55,12 @@ st.sidebar.header("Filtros")
 data_inicio = st.sidebar.date_input("Data Início", datetime(2025, 3, 1))
 data_fim = st.sidebar.date_input("Data Fim", datetime(2025, 3, 31))
 
+# Botão para atualizar os dados
+if st.sidebar.button("Atualizar Dados"):
+    df = load_data()  # Recarregar os dados
+    st.sidebar.success("Dados atualizados com sucesso!")
+
+
 # Filtrar dados
 df_filtrado = df[
     (df['data_captacao'].dt.date >= data_inicio) & 
@@ -63,14 +69,14 @@ df_filtrado = df[
 
 # 1. Captações por hora e dia
 st.header("Captações por Hora e Dia")
-df_hora_dia = df_filtrado.groupby([df_filtrado['data_captacao'].dt.date, 
-                                 df_filtrado['horacaptacao']]).size().reset_index()
-df_hora_dia.columns = ['Data', 'Hora', 'Quantidade']
+df_hora_dia = df_filtrado.groupby([df_filtrado['horacaptacao']]).size().reset_index()
+df_hora_dia.columns = ['Hora', 'Quantidade']
 
-fig1 = px.line(df_hora_dia, x='Hora', y='Quantidade', 
-              color='Data', 
+fig1 = px.bar(df_hora_dia, x='Hora', y='Quantidade', 
               title='Quantidade de Captações por Hora',
-              labels={'Hora': 'Hora do Dia', 'Quantidade': 'Nº de Captações'})
+              labels={'Hora': 'Hora do Dia', 'Quantidade': 'Nº de Captações'},
+              text='Quantidade')
+fig1.update_traces(textposition='outside')  # Exibe os valores fora das barras
 st.plotly_chart(fig1, use_container_width=True)
 
 # 2. Captações: Confirmados vs Não Confirmados
